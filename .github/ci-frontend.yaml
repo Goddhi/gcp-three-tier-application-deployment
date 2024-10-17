@@ -7,4 +7,6 @@ on:
     pull_request
 
 jobs:
-  
+  build-frontend-image:
+    name: "build frontend image"
+    runs-on: 'ubuntu-latest'
