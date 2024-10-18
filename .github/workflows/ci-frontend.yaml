@@ -1,31 +1,58 @@
+# name: 'CI for frontend'
+
+# on:
+#   push: 
+#     branches:
+#     - main
+
+# jobs:
+#   build-frontend-image:
+#     name: "build frontend image"
+#     runs-on: 'ubuntu-latest'
+  
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v3
+
+#       - name: sonarqubu-code-checkk
+#         working-directory: End-to-End-Kubernetes-Three-Tier-DevSecOps-Project/Application-Code/frontend 
+#         uses: sonarsource/sonarcloud-github-action@v1.1
+#         env:
+#           SONAR_HOST_URL: ${{ secrets.SONAR_SERVER_URL  }}
+#           SONAR_TOKEN: ${{  secrets.SONAR.TOKEN  }}
+#         with:
+#           args: >
+#             -Dsonar.projectKey=three-tier-frontend
+#             -Dsonar.projectName=three-tier-frontend
+#             -Dsonar.sources=Application-Code/frontend  # Specify the source directory
+#             -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
+#             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+
+      
 name: 'CI for frontend'
 
 on:
   push: 
     branches:
-    - main
+      - main
 
 jobs:
   build-frontend-image:
-    name: "build frontend image"
-    runs-on: 'ubuntu-latest'
+    name: "Build Frontend Image"
+    runs-on: ubuntu-latest
   
     steps:
-      - name: Checkout
+      - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: sonarqubu-code-checkk
-        working-directory: End-to-End-Kubernetes-Three-Tier-DevSecOps-Project/Application-Code/frontend 
-        uses: sonarsource/sonarcloud-github-action@v1.1
-        env:
-          SONAR_HOST_URL: ${{ secrets.SONAR_SERVER_URL  }}
-          SONAR_TOKEN: ${{  secrets.SONAR.TOKEN  }}
-        with:
-          args: >
-            -Dsonar.projectKey=three-tier-frontend
-            -Dsonar.projectName=three-tier-frontend
-            -Dsonar.sources=Application-Code/frontend  # Specify the source directory
-            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
+      - name: SonarQube Scan
+        run: |
+          sonar-scanner \
+            -Dsonar.projectKey=three-tier-frontend \
+            -Dsonar.projectName=three-tier-frontend \
+            -Dsonar.sources=Application-Code/frontend \
+            -Dsonar.host.url=${{ secrets.SONAR_SERVER_URL }} \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
-
-        
+        env:
+          SONAR_HOST_URL: ${{ secrets.SONAR_SERVER_URL }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
