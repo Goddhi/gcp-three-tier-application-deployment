@@ -51,13 +51,14 @@ jobs:
           sudo apt-get install -y wget unzip
           wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
           unzip sonar-scanner-cli-4.6.2.2472-linux.zip
-          export PATH=$PATH:$(pwd)/sonar-scanner-4.6.2.2472-linux/bin
+          mv sonar-scanner-4.6.2.2472-linux sonar-scanner
+          export PATH=$PATH:$(pwd)/sonar-scanner/bin
+          
+          # Check that sonar-scanner is installed and in PATH
+          sonar-scanner --version
           
       # Run SonarQube Scan
       - name: SonarQube Scan
-        env:
-          SONAR_HOST_URL: ${{ secrets.SONAR_SERVER_URL }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           sonar-scanner \
             -Dsonar.projectKey=three-tier-frontend \
@@ -65,3 +66,6 @@ jobs:
             -Dsonar.sources=Application-Code/frontend \
             -Dsonar.host.url=${{ secrets.SONAR_SERVER_URL }} \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+        env:
+          SONAR_HOST_URL: ${{ secrets.SONAR_SERVER_URL }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
