@@ -1,0 +1,6 @@
+terraform/api-sc.json
+
+terraform/.terraform
+terraform/.terraform.lock.hcl
+terraform/terraform.tfstate.backup
+
