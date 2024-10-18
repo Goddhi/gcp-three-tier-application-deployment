@@ -20,11 +20,12 @@ jobs:
         env:
           SONAR_HOST_URL: ${{ secrets.SONAR_SERVER_URL  }}
           SONAR_TOKEN: ${{  secrets.SONAR.TOKEN  }}
-        run:  |
-          sonar-scanner \
-          -Dsonar.projectName=three-tier-frontend \
-          -Dsonar.projectKey=three-tier-frontend \
-          -Dsonar.host.url=$SONAR_HOST_URL \
-          -Dsonar.login=$SONAR_TOKEN
+        with:
+          args: >
+            -Dsonar.projectKey=three-tier-frontend
+            -Dsonar.projectName=three-tier-frontend
+            -Dsonar.sources=Application-Code/frontend  # Specify the source directory
+            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
         
