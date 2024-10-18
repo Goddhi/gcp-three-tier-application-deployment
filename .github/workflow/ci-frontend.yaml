@@ -4,7 +4,7 @@ on:
   push: 
     branches:
     - main
-    pull_request
+  pull_request
 
 jobs:
   build-frontend-image:
@@ -22,7 +22,6 @@ jobs:
           SONAR_HOST_URL: ${{ secrets.SONAR_SERVER_URL  }}
           SONAR_TOKEN: ${{  secrets.SONAR.TOKEN  }}
         run:  |
-          cd Application-Code/frontend
           sonar-scanner \
           -Dsonar.projectName=three-tier-frontend \
           -Dsonar.projectKey=three-tier-frontend \
