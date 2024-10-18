@@ -45,22 +45,23 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      # Install SonarQube Scanner
       - name: Install SonarQube Scanner
         run: |
           sudo apt-get update
           sudo apt-get install -y wget unzip
           wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
-          unzip sonar-scanner-cli-4.6.2.2472-linux.zip
-          mv sonar-scanner-4.6.2.2472-linux sonar-scanner
-          export PATH=$PATH:$(pwd)/sonar-scanner/bin
+          unzip sonar-scanner-cli-4.6.2.2472-linux.zip -d $HOME
+          echo "export PATH=$HOME/sonar-scanner-4.6.2.2472-linux/bin:$PATH" >> $HOME/.bashrc
+          export PATH=$HOME/sonar-scanner-4.6.2.2472-linux/bin:$PATH
           
-          # Check that sonar-scanner is installed and in PATH
-          sonar-scanner --version
-          
+          # Verify installation
+          $HOME/sonar-scanner-4.6.2.2472-linux/bin/sonar-scanner --version
+
       # Run SonarQube Scan
       - name: SonarQube Scan
         run: |
-          sonar-scanner \
+          $HOME/sonar-scanner-4.6.2.2472-linux/bin/sonar-scanner \
             -Dsonar.projectKey=three-tier-frontend \
             -Dsonar.projectName=three-tier-frontend \
             -Dsonar.sources=Application-Code/frontend \
