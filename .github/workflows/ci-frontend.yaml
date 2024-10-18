@@ -15,7 +15,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: sonarqubu-code-check
+      - name: sonarqubu-code-checkk
         working-directory: End-to-End-Kubernetes-Three-Tier-DevSecOps-Project/Application-Code/frontend 
         uses: sonarsource/sonarcloud-github-action@v1.1
         env:
