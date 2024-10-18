@@ -1,0 +1,32 @@
+name: 'CI for frontend'
+
+on:
+  push: 
+    branches:
+    - main
+    pull_request
+
+jobs:
+  build-frontend-image:
+    name: "build frontend image"
+    runs-on: 'ubuntu-latest'
+  
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: sonarqubu-code-check
+        working-directory: End-to-End-Kubernetes-Three-Tier-DevSecOps-Project/Application-Code/frontend 
+        uses: sonarsource/sonarcloud-github-action@v1.1
+        env:
+          SONAR_HOST_URL: ${{ secrets.SONAR_SERVER_URL  }}
+          SONAR_TOKEN: ${{  secrets.SONAR.TOKEN  }}
+        run:  |
+          cd Application-Code/frontend
+          sonar-scanner \
+          -Dsonar.projectName=three-tier-frontend \
+          -Dsonar.projectKey=three-tier-frontend \
+          -Dsonar.host.url=$SONAR_HOST_URL \
+          -Dsonar.login=$SONAR_TOKEN
+
+        
