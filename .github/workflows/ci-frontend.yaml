@@ -56,7 +56,7 @@ jobs:
       - name: Verify Java Version
         run: java -version
 
-      # Run SonarScanner using Docker image
+      # Run SonarScanner using Docker imageeeeee
       - name: Run SonarScanner in Docker
         run: |
           docker run \
