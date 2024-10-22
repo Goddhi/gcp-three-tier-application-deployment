@@ -71,16 +71,6 @@ jobs:
 
 
 
-docker run \
-  --rm \
-  -e SONAR_HOST_URL=http://35.232.164.161:9000 \
-  -e SONAR_LOGIN=sqa_a945eb5c114fcab4f91840560d61c2fd2920b6fd\
-  -v $(pwd):/usr/src \
-  sonarsource/sonar-scanner-cli \
-  -Dsonar.projectKey=three-tier-frontend \
-  -Dsonar.projectName=three-tier-frontend \
-  -Dsonar.sources=/usr/src/Application-Code/frontend \
-  -X
 
 
   
