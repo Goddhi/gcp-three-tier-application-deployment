@@ -79,4 +79,12 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
 
-        
+
+
+
+
+      - name: Install Java 17
+        run: sudo apt-get install -y openjdk-17-jdk
+
+      - name: Set JAVA_HOME to Java 17
+        run: echo "JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64" >> $GITHUB_ENV
