@@ -53,29 +53,21 @@ jobs:
           distribution: 'temurin'
 
       # Verify the correct Java version
-      - name: Verify Java Version
-        run: java -version
+    - name: Verify Java Version
+      run: java -version
 
-      # Install SonarScanner
-      - name: Install SonarScanner
-        run: |
-          wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
-          unzip sonar-scanner-cli-4.6.2.2472-linux.zip
-          echo "SONAR_SCANNER_HOME=$PWD/sonar-scanner-4.6.2.2472-linux" >> $GITHUB_ENV
-            echo "$PWD/sonar-scanner-4.6.2.2472-linux/bin" >> $GITHUB_PATH    # Run SonarQube Scan
-      - name: Run SonarScanner
-        run: |
-          sonar-scanner \
-            -Dsonar.projectKey=three-tier-frontend \
-            -Dsonar.projectName=three-tier-frontend \
-            -Dsonar.sources=Application-Code/frontend \
-            -Dsonar.host.url=$SONAR_HOST_URL \
-            -Dsonar.login=$SONAR_TOKEN
-        env:
-          SONAR_HOST_URL: ${{ secrets.SONAR_SERVER_URL }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
-
+    # Run SonarScanner using Docker image
+    - name: Run SonarScanner in Docker
+      run: |
+        docker run \
+          --rm \
+          -e SONAR_HOST_URL=${{ secrets.SONAR_HOST_URL }} \
+          -e SONAR_LOGIN=${{ secrets.SONAR_TOKEN }} \
+          -v ${{ github.workspace }}:/usr/src \
+          sonarsource/sonar-scanner-cli \
+          -Dsonar.projectKey=three-tier-frontend \
+          -Dsonar.projectName=three-tier-frontend \
+          -Dsonar.sources=/usr/src/Application-Code/frontend
 
 
 
